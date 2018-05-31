@@ -95,7 +95,7 @@ on_message_publish(Message = #mqtt_message{pktid   = PkgId,
 						}, _Env) ->
     io:format("publish ~s~n", [emqttd_message:format(Message)]),
     Str1 = <<"{\"topic\":\"">>,
-    Str2 = <<"\", \"message\":["\">>,
+    Str2 = <<"\", \"message\":[\"">>,
     Str3 = <<"\"]}">>,
     Str4 = <<Str1/binary, Topic/binary, Str2/binary, Payload/binary, Str3/binary>>,
 	{ok, KafkaTopic} = application:get_env(emqttd_kafka_bridge, values),
