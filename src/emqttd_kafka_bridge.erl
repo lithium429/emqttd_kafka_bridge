@@ -99,8 +99,7 @@ on_message_publish(Message, _Env) ->
         {type, <<"published">>},
         {topic, Topic},
         {payload, Payload},
-        {qos, QoS},
-        {ts, emqttd_time:now_to_secs(Timestamp)}
+        {qos, QoS}
     ]),
 
     ekaf:produce_async_batched(<<"broker_message">>, list_to_binary(Json)),
