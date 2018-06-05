@@ -101,11 +101,15 @@ on_message_publish(Message = #mqtt_message{pktid   = PkgId,
     Str1 = <<"{\"topic\":\"">>,
     Str2 = <<"\", \"message\":[\"">>,
     Str3 = <<"\"]}">>,
-    Str4 = <<Str1/binary, Topic/binary, Str2/binary, binary_to_list(Payload), Str3/binary>>,
+    Str4 = <<Str1/binary, Topic/binary, Str2/binary, Payload/binary, Str3/binary>>,
 	{ok, KafkaTopic} = application:get_env(emqttd_kafka_bridge, values),
-    io:format("all msg is ~w~n", [Str4]),	
+    io:format("all msg is ~w~n", [Str4]),
+    Json = mochijson2:encode([
+        {topic, Topic},
+        {payload, Payload},
+    ]),
     ProduceTopic = proplists:get_value(kafka_producer_topic, KafkaTopic),
-    ekaf:produce_async(ProduceTopic, Str4),	
+    ekaf:produce_async(ProduceTopic, list_to_binary(Json)),	
     {ok, Message}.
 
 
