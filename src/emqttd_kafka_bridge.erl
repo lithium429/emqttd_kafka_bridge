@@ -106,7 +106,7 @@ on_message_publish(Message = #mqtt_message{pktid   = PkgId,
     io:format("all msg is ~w~n", [Str4]),
     Json = mochijson2:encode([
         {topic, Topic},
-        {payload, Payload},
+        {payload, Payload}
     ]),
     ProduceTopic = proplists:get_value(kafka_producer_topic, KafkaTopic),
     ekaf:produce_async(ProduceTopic, list_to_binary(Json)),	
